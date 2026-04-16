@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Blog — GeBe</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root { --black:#0a0a0a; --white:#f5f0e8; --acid:#c8ff00; --coral:#ff4d2e; --gray:#1a1a1a; --gray2:#222; }
+body { background:var(--black); color:var(--white); font-family:'DM Sans',sans-serif; font-weight:300; min-height:100vh; }
+
+/* LOGIN */
+#login-screen {
+  position:fixed; inset:0; background:var(--black);
+  display:flex; align-items:center; justify-content:center; z-index:9999;
+}
+.login-box {
+  width:100%; max-width:380px; padding:3rem;
+  border:1px solid rgba(255,255,255,.1);
+}
+.login-logo { font-family:'Bebas Neue',sans-serif; font-size:2.5rem; letter-spacing:.1em; margin-bottom:.3rem; }
+.login-sub { font-size:.7rem; letter-spacing:.25em; text-transform:uppercase; opacity:.35; margin-bottom:2.5rem; }
+.login-label { font-size:.6rem; letter-spacing:.25em; text-transform:uppercase; opacity:.4; display:block; margin-bottom:.5rem; }
+.login-input {
+  width:100%; background:none; border:none; border-bottom:1px solid rgba(255,255,255,.15);
+  color:var(--white); font-family:'DM Sans',sans-serif; font-size:1rem;
+  padding:.7rem 0; outline:none; transition:border-color .3s; margin-bottom:2rem;
+}
+.login-input:focus { border-color:var(--acid); }
+.login-btn {
+  width:100%; background:var(--acid); color:var(--black);
+  border:none; padding:1rem; font-family:'Bebas Neue',sans-serif;
+  font-size:1rem; letter-spacing:.2em; cursor:pointer; transition:background .2s;
+}
+.login-btn:hover { background:var(--coral); color:white; }
+.login-error { font-size:.7rem; color:var(--coral); margin-top:1rem; display:none; }
+
+/* LAYOUT */
+#app { display:none; min-height:100vh; }
+header {
+  position:sticky; top:0; z-index:100;
+  background:rgba(10,10,10,.95); backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:1rem 2rem;
+}
+.header-left { display:flex; align-items:center; gap:1.5rem; }
+.logo-box { background:var(--white); padding:5px 10px; border-radius:5px; }
+.logo-box svg { height:24px; width:auto; display:block; }
+.header-title { font-size:.65rem; letter-spacing:.25em; text-transform:uppercase; opacity:.4; }
+.logout-btn {
+  background:none; border:1px solid rgba(255,255,255,.15); color:rgba(255,255,255,.4);
+  font-family:'DM Sans',sans-serif; font-size:.62rem; letter-spacing:.15em;
+  text-transform:uppercase; padding:.4rem 1rem; cursor:pointer; transition:all .2s;
+}
+.logout-btn:hover { border-color:var(--coral); color:var(--coral); }
+
+.main { display:grid; grid-template-columns:1fr 380px; gap:0; min-height:calc(100vh - 61px); }
+
+/* EDITOR */
+.editor-panel { padding:2.5rem; border-right:1px solid rgba(255,255,255,.07); }
+.panel-title {
+  font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:.05em;
+  margin-bottom:2rem; padding-bottom:1rem;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.form-row { margin-bottom:1.5rem; }
+.form-label { font-size:.6rem; letter-spacing:.25em; text-transform:uppercase; opacity:.4; display:block; margin-bottom:.5rem; }
+.form-input, .form-select, .form-textarea {
+  width:100%; background:var(--gray2); border:1px solid rgba(255,255,255,.08);
+  color:var(--white); font-family:'DM Sans',sans-serif; font-size:.9rem;
+  padding:.75rem 1rem; outline:none; transition:border-color .3s;
+  border-radius:3px;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color:var(--acid); }
+.form-select { appearance:none; cursor:pointer; }
+.form-select option { background:var(--gray2); }
+.form-textarea { resize:vertical; min-height:180px; line-height:1.7; }
+.form-row-2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+
+.img-preview {
+  width:100%; aspect-ratio:16/9; background:var(--gray2);
+  border:1px dashed rgba(255,255,255,.12); border-radius:3px;
+  display:flex; align-items:center; justify-content:center;
+  flex-direction:column; gap:.5rem; cursor:pointer; transition:border-color .3s;
+  overflow:hidden; position:relative; margin-top:.5rem;
+}
+.img-preview:hover { border-color:var(--acid); }
+.img-preview img { width:100%; height:100%; object-fit:cover; position:absolute; inset:0; }
+.img-preview-label { font-size:.65rem; letter-spacing:.15em; text-transform:uppercase; opacity:.3; position:relative; }
+.img-preview-icon { font-size:1.5rem; opacity:.2; position:relative; }
+#img-file { display:none; }
+
+.form-actions { display:flex; gap:1rem; margin-top:2rem; }
+.btn-primary {
+  flex:1; background:var(--acid); color:var(--black);
+  border:none; padding:1rem; font-family:'Bebas Neue',sans-serif;
+  font-size:1rem; letter-spacing:.2em; cursor:pointer; transition:background .2s;
+}
+.btn-primary:hover { background:#b8ec00; }
+.btn-secondary {
+  background:none; border:1px solid rgba(255,255,255,.15); color:rgba(255,255,255,.5);
+  font-family:'Bebas Neue',sans-serif; font-size:.9rem; letter-spacing:.15em;
+  padding:1rem 1.5rem; cursor:pointer; transition:all .2s;
+}
+.btn-secondary:hover { border-color:var(--coral); color:var(--coral); }
+
+.save-msg { font-size:.7rem; letter-spacing:.15em; text-transform:uppercase; padding:.5rem 0; display:none; }
+.save-msg.ok { color:var(--acid); }
+.save-msg.err { color:var(--coral); }
+
+/* FEATURED toggle */
+.toggle-row { display:flex; align-items:center; gap:1rem; }
+.toggle { position:relative; width:44px; height:24px; }
+.toggle input { opacity:0; width:0; height:0; }
+.toggle-slider {
+  position:absolute; inset:0; background:rgba(255,255,255,.1);
+  border-radius:24px; cursor:pointer; transition:background .3s;
+}
+.toggle-slider::before {
+  content:''; position:absolute; height:18px; width:18px;
+  left:3px; bottom:3px; background:rgba(255,255,255,.4);
+  border-radius:50%; transition:transform .3s, background .3s;
+}
+.toggle input:checked + .toggle-slider { background:rgba(200,255,0,.25); }
+.toggle input:checked + .toggle-slider::before { transform:translateX(20px); background:var(--acid); }
+.toggle-label { font-size:.7rem; letter-spacing:.15em; text-transform:uppercase; opacity:.5; }
+
+/* POSTS LIST */
+.posts-panel { background:var(--gray); display:flex; flex-direction:column; }
+.posts-panel-header {
+  padding:1.5rem 2rem;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.posts-count { font-size:.65rem; letter-spacing:.2em; text-transform:uppercase; opacity:.35; }
+.posts-list { flex:1; overflow-y:auto; }
+.post-item {
+  padding:1.2rem 2rem; border-bottom:1px solid rgba(255,255,255,.05);
+  display:flex; align-items:flex-start; gap:1rem; cursor:pointer;
+  transition:background .2s;
+}
+.post-item:hover { background:rgba(255,255,255,.03); }
+.post-item.editing { background:rgba(200,255,0,.05); border-left:2px solid var(--acid); }
+.post-item-thumb {
+  width:64px; height:40px; background:var(--black);
+  flex-shrink:0; border-radius:2px; overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+  font-size:.6rem; opacity:.3;
+}
+.post-item-thumb img { width:100%; height:100%; object-fit:cover; }
+.post-item-info { flex:1; min-width:0; }
+.post-item-cat { font-size:.55rem; letter-spacing:.2em; text-transform:uppercase; color:var(--coral); margin-bottom:.3rem; }
+.post-item-title { font-family:'Bebas Neue',sans-serif; font-size:1rem; line-height:1.1; margin-bottom:.3rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.post-item-date { font-size:.6rem; opacity:.3; }
+.post-item-featured { font-size:.55rem; letter-spacing:.15em; text-transform:uppercase; background:var(--acid); color:var(--black); padding:.15rem .4rem; margin-left:.4rem; vertical-align:middle; }
+.post-item-actions { display:flex; gap:.5rem; flex-shrink:0; }
+.btn-icon {
+  background:none; border:1px solid rgba(255,255,255,.1); color:rgba(255,255,255,.4);
+  width:28px; height:28px; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; font-size:.8rem; transition:all .2s; border-radius:2px;
+}
+.btn-icon.del:hover { border-color:var(--coral); color:var(--coral); }
+.btn-icon.edit:hover { border-color:var(--acid); color:var(--acid); }
+
+.empty-state { padding:3rem 2rem; text-align:center; opacity:.25; }
+.empty-state p { font-size:.75rem; letter-spacing:.15em; text-transform:uppercase; }
+
+/* Content editor simple */
+.content-hint { font-size:.6rem; opacity:.3; margin-top:.4rem; line-height:1.6; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">GeBe</div>
+    <p class="login-sub">Admin · Blog</p>
+    <label class="login-label">Contraseña</label>
+    <input type="password" class="login-input" id="pwd-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">ENTRAR</button>
+    <p class="login-error" id="login-error">Contraseña incorrecta.</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <header>
+    <div class="header-left">
+      <div class="logo-box">
+        <svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="8" y="30" font-family="Arial Black, sans-serif" font-weight="900" font-size="26" fill="#0a0a0a" letter-spacing="-1">gebe</text>
+        </svg>
+      </div>
+      <span class="header-title">Panel de Blog</span>
+    </div>
+    <div style="display:flex;gap:1rem;align-items:center;">
+      <a href="blog.html" target="_blank" style="font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--acid);text-decoration:none;opacity:.7;">Ver blog →</a>
+      <button class="logout-btn" onclick="doLogout()">Salir</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <!-- EDITOR -->
+    <div class="editor-panel">
+      <h2 class="panel-title" id="editor-title">NUEVO POST</h2>
+      <input type="hidden" id="edit-id">
+
+      <div class="form-row-2">
+        <div class="form-row">
+          <label class="form-label">Categoría</label>
+          <select class="form-select" id="f-cat">
+            <option value="publicidad">Publicidad</option>
+            <option value="digital">Digital</option>
+            <option value="cine">Cine</option>
+            <option value="documental">Documental</option>
+            <option value="videoclips">Videoclips</option>
+            <option value="musica">Música</option>
+            <option value="teatro">Teatro</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Fecha</label>
+          <input type="date" class="form-input" id="f-date">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Título</label>
+        <input type="text" class="form-input" id="f-title" placeholder="Título del post">
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Resumen corto</label>
+        <input type="text" class="form-input" id="f-excerpt" placeholder="Una línea que aparece en la tarjeta del blog">
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Contenido del post</label>
+        <textarea class="form-textarea" id="f-content" placeholder="Escribe el contenido completo del post aquí. Puedes usar saltos de línea para separar párrafos."></textarea>
+        <p class="content-hint">Cada párrafo separado por línea en blanco se mostrará como párrafo independiente.</p>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Imagen de portada</label>
+        <div class="img-preview" id="img-preview" onclick="document.getElementById('img-file').click()">
+          <span class="img-preview-icon">＋</span>
+          <span class="img-preview-label">Click para subir imagen</span>
+        </div>
+        <input type="file" id="img-file" accept="image/*" onchange="handleImg(this)">
+      </div>
+
+      <div class="form-row">
+        <div class="toggle-row">
+          <label class="toggle">
+            <input type="checkbox" id="f-featured">
+            <span class="toggle-slider"></span>
+          </label>
+          <span class="toggle-label">Post destacado (aparece primero en grande)</span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-primary" onclick="savePost()">GUARDAR POST</button>
+        <button class="btn-secondary" onclick="clearForm()">LIMPIAR</button>
+      </div>
+      <p class="save-msg" id="save-msg"></p>
+    </div>
+
+    <!-- LISTA DE POSTS -->
+    <div class="posts-panel">
+      <div class="posts-panel-header">
+        <span class="panel-title" style="font-size:1.2rem;margin:0;padding:0;border:none;">POSTS</span>
+        <span class="posts-count" id="posts-count">0 posts</span>
+      </div>
+      <div class="posts-list" id="posts-list"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const PASS = 'gebe2025';
+const API_URL = 'https://script.google.com/macros/s/AKfycbz3VTcUveLc9SyZ9ZmgH4EDQqg_HEDrZerLQtQoKOU1z4vyHFZGQI15U_Th7E_8vU2X/exec';
+
+let localPosts = [];
+
+// LOGIN
+function doLogin() {
+  const val = document.getElementById('pwd-input').value;
+  if (val === PASS) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    sessionStorage.setItem('gebe_auth', '1');
+    document.getElementById('f-date').valueAsDate = new Date();
+    loadPosts();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('pwd-input').value = '';
+  }
+}
+function doLogout() {
+  sessionStorage.removeItem('gebe_auth');
+  location.reload();
+}
+if (sessionStorage.getItem('gebe_auth') === '1') {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('f-date').valueAsDate = new Date();
+}
+
+// IMAGEN (base64 para preview local, pero se guarda URL en Sheets)
+let currentImg = '';
+function handleImg(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    currentImg = e.target.result;
+    const preview = document.getElementById('img-preview');
+    preview.innerHTML = `<img src="${currentImg}" alt="preview">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+// LOAD POSTS FROM SHEETS
+async function loadPosts() {
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
+    localPosts = data.map(row => ({
+      id:        String(row.id || ''),
+      titulo:    row.titulo || '',
+      resumen:   row.resumen || '',
+      categoria: (row.categoria || '').toLowerCase(),
+      fecha:     row.fecha || '',
+      imagen:    row.imagen || '',
+      destacado: String(row.destacado).toUpperCase() === 'TRUE',
+      contenido: row.contenido || ''
+    }));
+    renderPosts();
+  } catch(e) {
+    showMsg('Error al cargar posts de la nube.', false);
+  }
+}
+
+// SAVE POST TO SHEETS
+async function savePost() {
+  const id = document.getElementById('edit-id').value;
+  const titulo    = document.getElementById('f-title').value.trim();
+  const resumen   = document.getElementById('f-excerpt').value.trim();
+  const contenido = document.getElementById('f-content').value.trim();
+  const categoria = document.getElementById('f-cat').value;
+  const fecha     = document.getElementById('f-date').value;
+  const destacado = document.getElementById('f-featured').checked;
+
+  if (!titulo) { showMsg('El título es obligatorio.', false); return; }
+
+  const btn = document.querySelector('.btn-primary');
+  btn.textContent = 'GUARDANDO...';
+  btn.disabled = true;
+
+  // Imagen: si es base64 nueva, usar como está (URL externa recomendada)
+  // Para producción real, usar URL de imagen externa (Cloudinary, etc.)
+  const imagen = currentImg || (id ? (localPosts.find(p=>p.id===id)||{}).imagen || '' : '');
+
+  const payload = {
+    action: id ? 'update' : 'create',
+    id, titulo, resumen, contenido, categoria, fecha,
+    destacado: destacado ? 'TRUE' : 'FALSE',
+    imagen
+  };
+
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+    const result = await res.json();
+    if (result.ok) {
+      showMsg('Post guardado ✓', true);
+      clearForm();
+      await loadPosts();
+    } else {
+      showMsg('Error: ' + (result.error || 'desconocido'), false);
+    }
+  } catch(e) {
+    showMsg('Error de conexión.', false);
+  } finally {
+    btn.textContent = 'GUARDAR POST';
+    btn.disabled = false;
+  }
+}
+
+// DELETE POST
+async function deletePost(id, e) {
+  e.stopPropagation();
+  if (!confirm('¿Eliminar este post?')) return;
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'delete', id })
+    });
+    const result = await res.json();
+    if (result.ok) {
+      if (document.getElementById('edit-id').value === id) clearForm();
+      await loadPosts();
+    } else {
+      showMsg('Error al eliminar.', false);
+    }
+  } catch(e) {
+    showMsg('Error de conexión.', false);
+  }
+}
+
+function editPost(id) {
+  const post = localPosts.find(p => p.id === id);
+  if (!post) return;
+  document.getElementById('edit-id').value = post.id;
+  document.getElementById('f-title').value = post.titulo;
+  document.getElementById('f-excerpt').value = post.resumen || '';
+  document.getElementById('f-content').value = post.contenido || '';
+  document.getElementById('f-cat').value = post.categoria;
+  document.getElementById('f-date').value = post.fecha;
+  document.getElementById('f-featured').checked = post.destacado || false;
+  currentImg = post.imagen || '';
+  const preview = document.getElementById('img-preview');
+  if (currentImg) {
+    preview.innerHTML = `<img src="${currentImg}" alt="preview">`;
+  } else {
+    preview.innerHTML = `<span class="img-preview-icon">＋</span><span class="img-preview-label">Click para subir imagen</span>`;
+  }
+  document.getElementById('editor-title').textContent = 'EDITAR POST';
+  document.querySelectorAll('.post-item').forEach(el => el.classList.remove('editing'));
+  document.querySelector(`.post-item[data-id="${id}"]`)?.classList.add('editing');
+  window.scrollTo(0, 0);
+}
+
+function clearForm() {
+  document.getElementById('edit-id').value = '';
+  document.getElementById('f-title').value = '';
+  document.getElementById('f-excerpt').value = '';
+  document.getElementById('f-content').value = '';
+  document.getElementById('f-cat').value = 'publicidad';
+  document.getElementById('f-date').valueAsDate = new Date();
+  document.getElementById('f-featured').checked = false;
+  currentImg = '';
+  document.getElementById('img-preview').innerHTML = `<span class="img-preview-icon">＋</span><span class="img-preview-label">Click para subir imagen</span>`;
+  document.getElementById('editor-title').textContent = 'NUEVO POST';
+  document.querySelectorAll('.post-item').forEach(el => el.classList.remove('editing'));
+  hideSaveMsg();
+}
+
+function showMsg(text, ok) {
+  const el = document.getElementById('save-msg');
+  el.textContent = text;
+  el.className = 'save-msg ' + (ok ? 'ok' : 'err');
+  el.style.display = 'block';
+  if (ok) setTimeout(hideSaveMsg, 3000);
+}
+function hideSaveMsg() {
+  document.getElementById('save-msg').style.display = 'none';
+}
+
+function formatDate(str) {
+  if (!str) return '';
+  const parts = String(str).split('-');
+  const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  return `${parts[2] ? parseInt(parts[2]) + ' ' : ''}${months[parseInt(parts[1])-1] || ''} ${parts[0]}`;
+}
+
+function renderPosts() {
+  const list = document.getElementById('posts-list');
+  document.getElementById('posts-count').textContent = localPosts.length + ' post' + (localPosts.length !== 1 ? 's' : '');
+
+  if (!localPosts.length) {
+    list.innerHTML = '<div class="empty-state"><p>No hay posts aún</p></div>';
+    return;
+  }
+
+  list.innerHTML = localPosts.map(p => `
+    <div class="post-item" data-id="${p.id}" onclick="editPost('${p.id}')">
+      <div class="post-item-thumb">
+        ${p.imagen ? `<img src="${p.imagen}" alt="">` : 'IMG'}
+      </div>
+      <div class="post-item-info">
+        <p class="post-item-cat">${p.categoria}${p.destacado ? ' <span class="post-item-featured">★ Destacado</span>' : ''}</p>
+        <p class="post-item-title">${p.titulo}</p>
+        <p class="post-item-date">${formatDate(p.fecha)}</p>
+      </div>
+      <div class="post-item-actions">
+        <button class="btn-icon edit" title="Editar" onclick="editPost('${p.id}');event.stopPropagation()">✎</button>
+        <button class="btn-icon del" title="Eliminar" onclick="deletePost('${p.id}',event)">✕</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Auto-init si ya está autenticado
+if (sessionStorage.getItem('gebe_auth') === '1') {
+  loadPosts();
+}
+</script>
+</body>
+</html>

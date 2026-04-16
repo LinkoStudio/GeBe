@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Directores — GeBe GarciaBross</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,700;1,300&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0;padding:0;box-sizing:border-box; }
+:root { --black:#0a0a0a; --white:#f5f0e8; --acid:#c8ff00; --coral:#ff4d2e; --blue:#0037ff; --lavender:#b8a9ff; --gray:#111; }
+html { scroll-behavior:smooth; }
+body { background:var(--black); color:var(--white); font-family:'DM Sans',sans-serif; font-weight:300; overflow-x:hidden;  }
+.cursor { position:fixed;width:12px;height:12px;background:var(--acid);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .3s,height .3s,background .3s;mix-blend-mode:difference; }
+.cursor.expand { width:44px;height:44px;background:var(--coral); }
+
+/* NAV */
+nav { position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3rem;background:rgba(10,10,10,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06); }
+.nav-logo { display:flex;align-items:center;text-decoration:none; }
+.logo-box { background:var(--white);padding:6px 12px;border-radius:6px;display:flex;align-items:center; }
+.logo-box svg { height:28px;width:auto; }
+.nav-links { display:flex;gap:2.5rem;list-style:none; }
+.nav-links a { color:var(--white);text-decoration:none;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;opacity:.6;transition:opacity .2s; }
+.nav-links a:hover,.nav-links a.active { opacity:1;color:var(--acid); }
+
+/* PAGE HEADER */
+.page-header { padding:14rem 3rem 5rem; position:relative;overflow:hidden; }
+.page-header-bg { position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%, rgba(0,55,255,.25),transparent 60%),radial-gradient(ellipse 40% 40% at 10% 80%, rgba(200,255,0,.1),transparent 50%);animation:bgpulse 9s ease-in-out infinite alternate; }
+@keyframes bgpulse { 0%{opacity:.7;transform:scale(1);}100%{opacity:1;transform:scale(1.03);} }
+.page-eyebrow { font-size:.65rem;letter-spacing:.35em;text-transform:uppercase;color:var(--acid);margin-bottom:1rem;position:relative;animation:fadeUp .8s ease both; }
+.page-title { font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,14vw,14rem);line-height:.88;position:relative;animation:fadeUp .8s .1s ease both; }
+.page-title em { font-family:'Playfair Display',serif;font-style:italic;color:var(--coral); }
+.page-sub { font-size:.9rem;opacity:.45;margin-top:1.5rem;max-width:380px;line-height:1.8;position:relative;animation:fadeUp .8s .2s ease both; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);} }
+
+/* DIRECTORS LIST */
+#directores-list { padding:0 3rem 5rem; }
+.director-row { display:grid;grid-template-columns:80px 1fr;border-top:1px solid rgba(255,255,255,.07);padding:4rem 0;gap:3rem;align-items:start;transition:background .3s; }
+.director-row:hover { background:rgba(255,255,255,.02); }
+.director-number { font-family:'Bebas Neue',sans-serif;font-size:1rem;opacity:.2;padding-top:.3rem; }
+.director-main { display:grid;grid-template-columns:200px 1fr;gap:3rem;align-items:start; }
+.director-photo { aspect-ratio:3/4;background:linear-gradient(135deg,#1a1a2e,#0f3460);position:relative;overflow:hidden;flex-shrink:0; }
+.director-photo img { width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(20%);transition:filter .4s; }
+.director-photo:hover img { filter:grayscale(0%); }
+.photo-placeholder { width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:3rem;opacity:.06; }
+.director-photo:nth-of-type(2n) { background:linear-gradient(135deg,#1a0a0a,#3d1515); }
+.director-content { flex:1; }
+.director-name { font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,5rem);line-height:.95;margin-bottom:.6rem; }
+.director-specialty { font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--acid);margin-bottom:1.5rem; }
+.director-bio { font-size:.88rem;line-height:1.85;opacity:.6;margin-bottom:2rem;max-width:480px; }
+
+/* DEMO REEL */
+.reel-label { font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--lavender);margin-bottom:.8rem; }
+.demo-reel-thumb { position:relative;aspect-ratio:16/9;background:#111;overflow:hidden;max-width:480px; }
+.demo-reel-thumb img { width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.7);transition:filter .3s; }
+.demo-reel-thumb:hover img { filter:brightness(.9); }
+.reel-overlay { position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3);transition:background .3s; }
+.demo-reel-thumb:hover .reel-overlay { background:rgba(0,0,0,.1); }
+.reel-play { width:56px;height:56px;border:2px solid rgba(255,255,255,.6);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:border-color .3s,background .3s; }
+.demo-reel-thumb:hover .reel-play { border-color:var(--acid);background:rgba(200,255,0,.2);color:var(--acid); }
+.reel-placeholder { width:100%;height:100%;background:linear-gradient(135deg,#111 0%,#1a1a2e 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;aspect-ratio:16/9;max-width:480px; }
+.reel-placeholder .rp { width:56px;height:56px;border:1px solid rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:border-color .3s; }
+.reel-placeholder:hover .rp { border-color:var(--acid); }
+
+/* FEATURED PIECES */
+.featured-label { font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--coral);margin:2rem 0 .8rem; }
+.featured-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:480px; }
+.feat-card { aspect-ratio:16/9;background:#111;position:relative;overflow:hidden; }
+.feat-placeholder { width:100%;height:100%;background:linear-gradient(135deg,#111,#1a1a1a);display:flex;align-items:center;justify-content:center;font-size:1.5rem;opacity:.4;transition:opacity .3s; }
+.feat-card:hover .feat-placeholder { opacity:.7; }
+.feat-info { position:absolute;bottom:0;left:0;right:0;padding:.6rem .7rem;background:linear-gradient(to top,rgba(0,0,0,.9),transparent);opacity:0;transition:opacity .3s; }
+.feat-card:hover .feat-info { opacity:1; }
+.feat-title { font-size:.65rem;letter-spacing:.05em; }
+
+/* CONTACT FOOTER SECTION */
+.contact-strip { background:var(--coral);padding:3rem;display:flex;align-items:center;justify-content:space-between; }
+.contact-strip-text { font-family:'Bebas Neue',sans-serif;font-size:clamp(1.5rem,4vw,3rem);color:var(--black); }
+.contact-strip-link { font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.2em;color:var(--black);text-decoration:none;border-bottom:2px solid var(--black);padding-bottom:2px; }
+
+footer { padding:2.5rem 3rem;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;align-items:center; }
+.footer-logo { font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.15em;opacity:.3; }
+.footer-copy { font-size:.62rem;opacity:.25;letter-spacing:.1em; }
+
+/* MODAL */
+.modal-overlay { position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.95);display:none;align-items:center;justify-content:center; }
+.modal-overlay.open { display:flex; }
+.modal-video-wrap { width:90vw;max-width:960px;aspect-ratio:16/9; }
+.modal-video-wrap iframe { width:100%;height:100%;border:none; }
+.modal-close { position:absolute;top:2rem;right:2rem;background:none;border:1px solid rgba(255,255,255,.2);color:white;width:44px;height:44px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center; }
+.modal-close:hover { background:var(--coral);border-color:var(--coral); }
+
+/* TABLET 810px */
+@media(max-width:810px){
+  nav{padding:1rem 1.5rem;}
+  .nav-links{display:none;}
+  .page-header{padding:10rem 1.5rem 4rem;}
+  #directores-list{padding:0 1.5rem 4rem;}
+  .director-main{grid-template-columns:1fr;}
+  .director-number{display:none;}
+  .director-row{grid-template-columns:1fr;}
+  .featured-grid{grid-template-columns:1fr 1fr;}
+  .contact-strip{flex-direction:column;gap:1.5rem;text-align:center;}
+  footer{padding:2rem 1.5rem;flex-direction:column;gap:1rem;}
+}
+/* MOBILE 390px */
+@media(max-width:390px){
+  nav{padding:.9rem 1rem;}
+  .page-header{padding:8rem 1rem 3rem;}
+  .page-title{font-size:4rem;}
+  #directores-list{padding:0 1rem 3rem;}
+  .director-row{padding:2.5rem 0;}
+  .director-name{font-size:2.5rem;}
+  .director-bio{font-size:.82rem;}
+  .demo-reel-thumb,.reel-placeholder{max-width:100%;}
+  .featured-grid{grid-template-columns:1fr 1fr 1fr;}
+  .contact-strip{padding:2rem 1rem;}
+  footer{padding:1.5rem 1rem;}
+}
+
+/* MAX WIDTH WRAPPER */
+.mw { max-width:1200px; margin:0 auto; width:100%; }
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="logo-box">
+      <img src="Gebe_Negro.png" alt="GeBe" style="height:28px;width:auto;display:block;">
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="directores.html" class="active">Directores</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="index.html#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-bg"></div>
+  <p class="page-eyebrow">GeBe · Roster</p>
+  <h1 class="page-title">DIREC<br><em>tores</em></h1>
+  <p class="page-sub">7 visiones únicas. Una sola obsesión: contar historias que perduran.</p>
+</div>
+
+<!-- DIRECTORS -->
+<section id="directores-list">
+
+  <!-- DIRECTOR 1 -->
+  <div class="director-row">
+    <span class="director-number">01</span>
+    <div class="director-main">
+      <div class="director-photo">
+        <div class="photo-placeholder">GG</div>
+      </div>
+      <div class="director-content">
+        <h2 class="director-name">NOMBRE DIRECTOR</h2>
+        <p class="director-specialty">Publicidad · Cine · Comerciales</p>
+        <p class="director-bio">Biografía del director. Trayectoria, premios, proyectos destacados y estilo de dirección. Con más de X años de carrera ha dirigido campañas para marcas nacionales e internacionales. Reemplaza este texto con el perfil real.</p>
+        <p class="reel-label">Demo Reel</p>
+        <div class="reel-placeholder" onclick="openModal('REEL_ID_1')">
+          <div class="rp">▶</div>
+          <span style="font-size:.65rem;opacity:.4;letter-spacing:.15em;text-transform:uppercase;">Ver Demo Reel</span>
+        </div>
+        <p class="featured-label">Piezas Destacadas</p>
+        <div class="featured-grid">
+          <div class="feat-card" onclick="openModal('FEAT_1A')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 1</p></div></div>
+          <div class="feat-card" onclick="openModal('FEAT_1B')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 2</p></div></div>
+          <div class="feat-card" onclick="openModal('FEAT_1C')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 3</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIRECTOR 2 -->
+  <div class="director-row">
+    <span class="director-number">02</span>
+    <div class="director-main">
+      <div class="director-photo" style="background:linear-gradient(135deg,#1a0a0a,#3d1515)">
+        <div class="photo-placeholder">GG</div>
+      </div>
+      <div class="director-content">
+        <h2 class="director-name">NOMBRE DIRECTOR</h2>
+        <p class="director-specialty">Videoclips · Digital · Series</p>
+        <p class="director-bio">Biografía del segundo director. Trayectoria, premios, proyectos destacados y estilo de dirección. Especializado en narrativa visual emotiva y trabajo con artistas musicales.</p>
+        <p class="reel-label">Demo Reel</p>
+        <div class="reel-placeholder" onclick="openModal('REEL_ID_2')">
+          <div class="rp">▶</div>
+          <span style="font-size:.65rem;opacity:.4;letter-spacing:.15em;text-transform:uppercase;">Ver Demo Reel</span>
+        </div>
+        <p class="featured-label">Piezas Destacadas</p>
+        <div class="featured-grid">
+          <div class="feat-card" onclick="openModal('FEAT_2A')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 1</p></div></div>
+          <div class="feat-card" onclick="openModal('FEAT_2B')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 2</p></div></div>
+          <div class="feat-card" onclick="openModal('FEAT_2C')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 3</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIRECTOR 3 -->
+  <div class="director-row">
+    <span class="director-number">03</span>
+    <div class="director-main">
+      <div class="director-photo" style="background:linear-gradient(135deg,#0a1a0a,#0f3d15)">
+        <div class="photo-placeholder">GG</div>
+      </div>
+      <div class="director-content">
+        <h2 class="director-name">NOMBRE DIRECTOR</h2>
+        <p class="director-specialty">Cine · Documentales · Ficción</p>
+        <p class="director-bio">Biografía del tercer director. Con una sólida carrera en el cine de autor y el documental, ha participado en festivales internacionales y dirigido proyectos de largo aliento.</p>
+        <p class="reel-label">Demo Reel</p>
+        <div class="reel-placeholder" onclick="openModal('REEL_ID_3')">
+          <div class="rp">▶</div>
+          <span style="font-size:.65rem;opacity:.4;letter-spacing:.15em;text-transform:uppercase;">Ver Demo Reel</span>
+        </div>
+        <p class="featured-label">Piezas Destacadas</p>
+        <div class="featured-grid">
+          <div class="feat-card" onclick="openModal('FEAT_3A')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 1</p></div></div>
+          <div class="feat-card" onclick="openModal('FEAT_3B')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 2</p></div></div>
+          <div class="feat-card" onclick="openModal('FEAT_3C')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 3</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIRECTOR 4 -->
+  <div class="director-row">
+    <span class="director-number">04</span>
+    <div class="director-main">
+      <div class="director-photo" style="background:linear-gradient(135deg,#1a1a0a,#3d3d15)">
+        <div class="photo-placeholder">GG</div>
+      </div>
+      <div class="director-content">
+        <h2 class="director-name">NOMBRE DIRECTOR</h2>
+        <p class="director-specialty">Comerciales · Publicidad · Foto</p>
+        <p class="director-bio">Biografía del cuarto director. Especialista en publicidad de alto impacto con una estética muy reconocible. Ha trabajado con las principales marcas del mercado mexicano y latinoamericano.</p>
+        <p class="reel-label">Demo Reel</p>
+        <div class="reel-placeholder" onclick="openModal('REEL_ID_4')">
+          <div class="rp">▶</div>
+          <span style="font-size:.65rem;opacity:.4;letter-spacing:.15em;text-transform:uppercase;">Ver Demo Reel</span>
+        </div>
+        <p class="featured-label">Piezas Destacadas</p>
+        <div class="featured-grid">
+          <div class="feat-card" onclick="openModal('FEAT_4A')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 1</p></div></div>
+          <div class="feat-card" onclick="openModal('FEAT_4B')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 2</p></div></div>
+          <div class="feat-card" onclick="openModal('FEAT_4C')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 3</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIRECTOR 5 -->
+  <div class="director-row">
+    <span class="director-number">05</span>
+    <div class="director-main">
+      <div class="director-photo" style="background:linear-gradient(135deg,#0a0a1a,#15153d)">
+        <div class="photo-placeholder">GG</div>
+      </div>
+      <div class="director-content">
+        <h2 class="director-name">NOMBRE DIRECTOR</h2>
+        <p class="director-specialty">Teatro · Música · Eventos</p>
+        <p class="director-bio">Biografía del quinto director. Con una trayectoria que cruza las artes escénicas y el audiovisual, ha producido y dirigido espectáculos teatrales y musicales de gran formato.</p>
+        <p class="reel-label">Demo Reel</p>
+        <div class="reel-placeholder" onclick="openModal('REEL_ID_5')">
+          <div class="rp">▶</div>
+          <span style="font-size:.65rem;opacity:.4;letter-spacing:.15em;text-transform:uppercase;">Ver Demo Reel</span>
+        </div>
+        <p class="featured-label">Piezas Destacadas</p>
+        <div class="featured-grid">
+          <div class="feat-card" onclick="openModal('FEAT_5A')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 1</p></div></div>
+          <div class="feat-card" onclick="openModal('FEAT_5B')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 2</p></div></div>
+          <div class="feat-card" onclick="openModal('FEAT_5C')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 3</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIRECTOR 6 -->
+  <div class="director-row">
+    <span class="director-number">06</span>
+    <div class="director-main">
+      <div class="director-photo" style="background:linear-gradient(135deg,#1a0a1a,#3d153d)">
+        <div class="photo-placeholder">GG</div>
+      </div>
+      <div class="director-content">
+        <h2 class="director-name">NOMBRE DIRECTOR</h2>
+        <p class="director-specialty">Digital · Contenido · Series</p>
+        <p class="director-bio">Biografía del sexto director. Nativo del entorno digital, con amplia experiencia en contenido para plataformas de streaming, redes sociales y campañas integradas de comunicación.</p>
+        <p class="reel-label">Demo Reel</p>
+        <div class="reel-placeholder" onclick="openModal('REEL_ID_6')">
+          <div class="rp">▶</div>
+          <span style="font-size:.65rem;opacity:.4;letter-spacing:.15em;text-transform:uppercase;">Ver Demo Reel</span>
+        </div>
+        <p class="featured-label">Piezas Destacadas</p>
+        <div class="featured-grid">
+          <div class="feat-card" onclick="openModal('FEAT_6A')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 1</p></div></div>
+          <div class="feat-card" onclick="openModal('FEAT_6B')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 2</p></div></div>
+          <div class="feat-card" onclick="openModal('FEAT_6C')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 3</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIRECTOR 7 -->
+  <div class="director-row">
+    <span class="director-number">07</span>
+    <div class="director-main">
+      <div class="director-photo" style="background:linear-gradient(135deg,#0a1a1a,#153d3d)">
+        <div class="photo-placeholder">GG</div>
+      </div>
+      <div class="director-content">
+        <h2 class="director-name">NOMBRE DIRECTOR</h2>
+        <p class="director-specialty">Publicidad · Cine · Videoclips</p>
+        <p class="director-bio">Biografía del séptimo director. Versátil y con una mirada singular, ha construido una carrera que transita con igual destreza entre el cine comercial, la publicidad y el video musical.</p>
+        <p class="reel-label">Demo Reel</p>
+        <div class="reel-placeholder" onclick="openModal('REEL_ID_7')">
+          <div class="rp">▶</div>
+          <span style="font-size:.65rem;opacity:.4;letter-spacing:.15em;text-transform:uppercase;">Ver Demo Reel</span>
+        </div>
+        <p class="featured-label">Piezas Destacadas</p>
+        <div class="featured-grid">
+          <div class="feat-card" onclick="openModal('FEAT_7A')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 1</p></div></div>
+          <div class="feat-card" onclick="openModal('FEAT_7B')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 2</p></div></div>
+          <div class="feat-card" onclick="openModal('FEAT_7C')"><div class="feat-placeholder">▶</div><div class="feat-info"><p class="feat-title">Título Pieza 3</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- CONTACT STRIP -->
+<div class="contact-strip">
+  <p class="contact-strip-text">¿Tienes un proyecto? Hablemos.</p>
+  <a href="index.html#contacto" class="contact-strip-link">CONTACTO →</a>
+</div>
+
+<footer>
+  <span class="footer-logo">GEBE · GARCIABROSS · EST. 1993</span>
+  <span class="footer-copy">© 2025 GeBe. Todos los derechos reservados · México</span>
+</footer>
+
+<!-- VIDEO MODAL -->
+<div class="modal-overlay" id="modal">
+  <button class="modal-close" onclick="closeModal()">✕</button>
+  <div class="modal-video-wrap">
+    <iframe id="modal-frame" src="" allow="autoplay;fullscreen"></iframe>
+  </div>
+</div>
+
+<script>
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => { cursor.style.left=e.clientX+'px'; cursor.style.top=e.clientY+'px'; });
+document.querySelectorAll('a,button,.reel-placeholder,.feat-card').forEach(el => {
+  el.addEventListener('mouseenter',()=>cursor.classList.add('expand'));
+  el.addEventListener('mouseleave',()=>cursor.classList.remove('expand'));
+});
+
+function openModal(id) {
+  if(!id || id.startsWith('REEL_') || id.startsWith('FEAT_')) {
+    alert('Reemplaza el ID de Vimeo para activar este video.');
+    return;
+  }
+  document.getElementById('modal-frame').src='https://player.vimeo.com/video/'+id+'?autoplay=1';
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.getElementById('modal-frame').src='';
+  document.body.style.overflow='';
+}
+document.getElementById('modal').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeModal(); });
+
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){e.target.style.opacity=1;e.target.style.transform='translateY(0)';} });
+},{threshold:.08});
+document.querySelectorAll('.director-row').forEach(el=>{
+  el.style.opacity=0;el.style.transform='translateY(20px)';
+  el.style.transition='opacity .6s ease,transform .6s ease';
+  obs.observe(el);
+});
+</script>
+</body>
+</html>

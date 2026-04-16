@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — GeBe GarciaBross</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,700;1,300&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0;padding:0;box-sizing:border-box; }
+:root { --black:#0a0a0a;--white:#f5f0e8;--acid:#c8ff00;--coral:#ff4d2e;--blue:#0037ff;--lavender:#b8a9ff; }
+html { scroll-behavior:smooth; }
+body { background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden; }
+.cursor { position:fixed;width:12px;height:12px;background:var(--acid);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .3s,height .3s,background .3s;mix-blend-mode:difference; }
+.cursor.expand { width:44px;height:44px;background:var(--coral); }
+
+nav { position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3rem;background:rgba(10,10,10,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06); }
+.nav-logo { display:flex;align-items:center;text-decoration:none; }
+.logo-box { background:var(--white);padding:6px 12px;border-radius:6px;display:flex;align-items:center; }
+.logo-box svg { height:28px;width:auto; }
+.nav-links { display:flex;gap:2.5rem;list-style:none; }
+.nav-links a { color:var(--white);text-decoration:none;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;opacity:.6;transition:opacity .2s; }
+.nav-links a:hover,.nav-links a.active { opacity:1;color:var(--acid); }
+
+/* PAGE HEADER */
+.page-header { padding:14rem 3rem 5rem;position:relative;overflow:hidden; }
+.page-header-bg { position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 20% 50%, rgba(255,77,46,.2),transparent 60%),radial-gradient(ellipse 40% 40% at 80% 80%, rgba(184,169,255,.1),transparent 50%);animation:bgpulse 9s ease-in-out infinite alternate; }
+@keyframes bgpulse { 0%{opacity:.7;transform:scale(1);}100%{opacity:1;transform:scale(1.03);} }
+.page-eyebrow { font-size:.65rem;letter-spacing:.35em;text-transform:uppercase;color:var(--acid);margin-bottom:1rem;position:relative;animation:fadeUp .8s ease both; }
+.page-title { font-family:'Bebas Neue',sans-serif;font-size:clamp(6rem,16vw,16rem);line-height:.88;position:relative;animation:fadeUp .8s .1s ease both; }
+.page-title em { font-family:'Playfair Display',serif;font-style:italic;color:var(--coral); }
+.page-sub { font-size:.9rem;opacity:.45;margin-top:1.5rem;max-width:380px;line-height:1.8;position:relative;animation:fadeUp .8s .2s ease both; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);} }
+
+/* FEATURED POST */
+.featured-post { padding:0 3rem 2px;border-bottom:1px solid rgba(255,255,255,.07); }
+.featured-inner { display:grid;grid-template-columns:1fr 1fr;gap:0;background:rgba(255,255,255,.04); }
+.featured-image { aspect-ratio:16/9;background:linear-gradient(135deg,#1a1a2e,#0037ff22);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center; }
+.featured-image-placeholder { font-family:'Bebas Neue',sans-serif;font-size:6rem;opacity:.06; }
+.featured-badge { position:absolute;top:1.2rem;left:1.2rem;background:var(--acid);color:var(--black);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;padding:.3rem .7rem;font-weight:700; }
+.featured-text { padding:3rem; }
+.feat-cat { font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--coral);margin-bottom:1rem; }
+.feat-title { font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3.5rem);line-height:1;margin-bottom:1.2rem; }
+.feat-excerpt { font-size:.9rem;line-height:1.85;opacity:.6;margin-bottom:2rem; }
+.feat-meta { display:flex;align-items:center;gap:1.5rem; }
+.feat-date { font-size:.62rem;opacity:.35;letter-spacing:.1em; }
+.feat-read { font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--acid);text-decoration:none;border-bottom:1px solid rgba(200,255,0,.3);padding-bottom:2px;transition:border-color .2s; }
+.feat-read:hover { border-color:var(--acid); }
+
+/* POSTS GRID */
+.posts-section { padding:3rem 3rem 7rem; }
+.posts-filter { display:flex;gap:1rem;margin-bottom:3rem;flex-wrap:wrap; }
+.filter-btn { background:none;border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.5);font-family:'DM Sans',sans-serif;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;padding:.4rem 1rem;transition:border-color .2s,color .2s,background .2s; }
+.filter-btn:hover,.filter-btn.active { border-color:var(--acid);color:var(--acid); }
+
+.posts-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.06); }
+.post-card { background:var(--black);transition:background .3s;text-decoration:none;color:inherit;display:block; }
+.post-card:hover { background:#111; }
+.post-thumb { aspect-ratio:16/9;position:relative;overflow:hidden; }
+.post-thumb-placeholder { width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:3rem;color:rgba(255,255,255,.05);transition:transform .5s; }
+.post-card:hover .post-thumb-placeholder { transform:scale(1.04); }
+.post-body { padding:1.5rem; }
+.post-cat { font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);margin-bottom:.6rem; }
+.post-title { font-family:'Bebas Neue',sans-serif;font-size:1.5rem;line-height:1.05;margin-bottom:.8rem; }
+.post-excerpt { font-size:.8rem;line-height:1.75;opacity:.5;margin-bottom:1rem; }
+.post-footer { display:flex;justify-content:space-between;align-items:center; }
+.post-date { font-size:.6rem;opacity:.3;letter-spacing:.08em; }
+.post-arrow { font-size:.9rem;color:var(--acid);opacity:0;transition:opacity .3s,transform .3s; }
+.post-card:hover .post-arrow { opacity:1;transform:translate(3px,-3px); }
+
+/* LOAD MORE */
+.load-more-wrap { text-align:center;padding:4rem 0 2rem; }
+.load-more-btn { background:none;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:.2em;padding:1rem 3rem;transition:border-color .2s,color .2s,background .2s; }
+.load-more-btn:hover { border-color:var(--acid);color:var(--acid); }
+
+/* CONTACT STRIP */
+.contact-strip { background:var(--coral);padding:3rem;display:flex;align-items:center;justify-content:space-between; }
+.contact-strip-text { font-family:'Bebas Neue',sans-serif;font-size:clamp(1.5rem,4vw,3rem);color:var(--black); }
+.contact-strip-link { font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.2em;color:var(--black);text-decoration:none;border-bottom:2px solid var(--black);padding-bottom:2px; }
+
+footer { padding:2.5rem 3rem;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;align-items:center; }
+.footer-logo { font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.15em;opacity:.3; }
+.footer-copy { font-size:.62rem;opacity:.25;letter-spacing:.1em; }
+
+/* TABLET 810px */
+@media(max-width:810px){
+  nav{padding:1rem 1.5rem;}
+  .nav-links{display:none;}
+  .page-header{padding:10rem 1.5rem 4rem;}
+  .featured-post{padding:0 1.5rem 2px;}
+  .featured-inner{grid-template-columns:1fr;}
+  .posts-section{padding:3rem 1.5rem 5rem;}
+  .posts-grid{grid-template-columns:1fr 1fr;}
+  .contact-strip{flex-direction:column;gap:1.5rem;text-align:center;}
+  footer{padding:2rem 1.5rem;flex-direction:column;gap:1rem;}
+}
+/* MOBILE 390px */
+@media(max-width:390px){
+  nav{padding:.9rem 1rem;}
+  .page-header{padding:8rem 1rem 3rem;}
+  .page-title{font-size:5rem;}
+  .featured-post{padding:0 1rem 2px;}
+  .featured-text{padding:1.5rem;}
+  .feat-title{font-size:1.8rem;}
+  .posts-section{padding:2.5rem 1rem 4rem;}
+  .posts-grid{grid-template-columns:1fr;}
+  .posts-filter{gap:.5rem;}
+  .filter-btn{font-size:.58rem;padding:.35rem .75rem;}
+  .contact-strip{padding:2rem 1rem;}
+  footer{padding:1.5rem 1rem;}
+}
+
+/* MAX WIDTH WRAPPER */
+.mw { max-width:1200px; margin:0 auto; width:100%; }
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="logo-box">
+      <img src="Gebe_Negro.png" alt="GeBe" style="height:28px;width:auto;display:block;">
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="directores.html">Directores</a></li>
+    <li><a href="blog.html" class="active">Blog</a></li>
+    <li><a href="index.html#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-bg"></div>
+  <p class="page-eyebrow">GeBe · Noticias y Producciones</p>
+  <h1 class="page-title"><em>Blog</em></h1>
+  <p class="page-sub">Las nuevas producciones, proyectos recientes y novedades de GeBe.</p>
+</div>
+
+<!-- FEATURED POST -->
+<div class="featured-post">
+  <div class="featured-inner">
+    <div class="featured-image">
+      <div class="featured-image-placeholder">GEBE</div>
+      <span class="featured-badge">Destacado</span>
+    </div>
+    <div class="featured-text">
+      <p class="feat-cat">Nueva Producción</p>
+      <h2 class="feat-title">Título de la producción más reciente de GeBe</h2>
+      <p class="feat-excerpt">Descripción breve de la nueva producción. Cuéntanos de qué trata el proyecto, quién lo dirigió, para qué marca o plataforma, y por qué es especial. Este es el post destacado que aparece primero.</p>
+      <div class="feat-meta">
+        <span class="feat-date">Febrero 2025</span>
+        <a href="post-detalle.html" class="feat-read">Leer más →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- POSTS -->
+<div class="posts-section">
+  <div class="posts-filter">
+    <button class="filter-btn active" onclick="filterPosts('all',this)">Todos</button>
+    <button class="filter-btn" onclick="filterPosts('publicidad',this)">Publicidad</button>
+    <button class="filter-btn" onclick="filterPosts('digital',this)">Digital</button>
+    <button class="filter-btn" onclick="filterPosts('cine',this)">Cine</button>
+    <button class="filter-btn" onclick="filterPosts('videoclips',this)">Videoclips</button>
+    <button class="filter-btn" onclick="filterPosts('musica',this)">Música</button>
+    <button class="filter-btn" onclick="filterPosts('teatro',this)">Teatro</button>
+  </div>
+
+  <div class="posts-grid" id="posts-grid">
+    <a href="post-detalle.html" class="post-card" data-cat="publicidad">
+      <div class="post-thumb"><div class="post-thumb-placeholder" style="background:linear-gradient(135deg,#1a1a2e,#0f3460)">01</div></div>
+      <div class="post-body">
+        <p class="post-cat">Publicidad</p>
+        <h3 class="post-title">Título del Comercial o Campaña</h3>
+        <p class="post-excerpt">Descripción breve del proyecto. Marca, director, concepto creativo.</p>
+        <div class="post-footer"><span class="post-date">Enero 2025</span><span class="post-arrow">↗</span></div>
+      </div>
+    </a>
+    <a href="post-detalle.html" class="post-card" data-cat="digital">
+      <div class="post-thumb"><div class="post-thumb-placeholder" style="background:linear-gradient(135deg,#1a0a0a,#3d1515)">02</div></div>
+      <div class="post-body">
+        <p class="post-cat">Digital</p>
+        <h3 class="post-title">Proyecto Digital Destacado</h3>
+        <p class="post-excerpt">Descripción del contenido digital. Plataforma, objetivo, resultados.</p>
+        <div class="post-footer"><span class="post-date">Enero 2025</span><span class="post-arrow">↗</span></div>
+      </div>
+    </a>
+    <a href="post-detalle.html" class="post-card" data-cat="cine">
+      <div class="post-thumb"><div class="post-thumb-placeholder" style="background:linear-gradient(135deg,#0a1a0a,#0f3d15)">03</div></div>
+      <div class="post-body">
+        <p class="post-cat">Cine</p>
+        <h3 class="post-title">Estreno en Festivales</h3>
+        <p class="post-excerpt">Descripción del largometraje o cortometraje. Festival, director, sinopsis.</p>
+        <div class="post-footer"><span class="post-date">Diciembre 2024</span><span class="post-arrow">↗</span></div>
+      </div>
+    </a>
+    <a href="post-detalle.html" class="post-card" data-cat="videoclips">
+      <div class="post-thumb"><div class="post-thumb-placeholder" style="background:linear-gradient(135deg,#1a1a0a,#3d3d15)">04</div></div>
+      <div class="post-body">
+        <p class="post-cat">Videoclips</p>
+        <h3 class="post-title">Nuevo Videoclip — Artista</h3>
+        <p class="post-excerpt">Descripción del videoclip. Artista, director, concepto visual.</p>
+        <div class="post-footer"><span class="post-date">Diciembre 2024</span><span class="post-arrow">↗</span></div>
+      </div>
+    </a>
+    <a href="post-detalle.html" class="post-card" data-cat="musica">
+      <div class="post-thumb"><div class="post-thumb-placeholder" style="background:linear-gradient(135deg,#0a0a1a,#15153d)">05</div></div>
+      <div class="post-body">
+        <p class="post-cat">Música</p>
+        <h3 class="post-title">Producción del Concierto</h3>
+        <p class="post-excerpt">Descripción de la producción musical. Artista, venue, equipo técnico.</p>
+        <div class="post-footer"><span class="post-date">Noviembre 2024</span><span class="post-arrow">↗</span></div>
+      </div>
+    </a>
+    <a href="post-detalle.html" class="post-card" data-cat="teatro">
+      <div class="post-thumb"><div class="post-thumb-placeholder" style="background:linear-gradient(135deg,#1a0a1a,#3d153d)">06</div></div>
+      <div class="post-body">
+        <p class="post-cat">Teatro</p>
+        <h3 class="post-title">Obra Teatral — Temporada</h3>
+        <p class="post-excerpt">Descripción de la producción teatral. Obra, director, elenco, sede.</p>
+        <div class="post-footer"><span class="post-date">Octubre 2024</span><span class="post-arrow">↗</span></div>
+      </div>
+    </a>
+  </div>
+
+  <div class="load-more-wrap">
+    <button class="load-more-btn">CARGAR MÁS</button>
+  </div>
+</div>
+
+<!-- CONTACT STRIP -->
+<div class="contact-strip">
+  <p class="contact-strip-text">¿Tienes un proyecto? Hablemos.</p>
+  <a href="index.html#contacto" class="contact-strip-link">CONTACTO →</a>
+</div>
+
+<footer>
+  <span class="footer-logo">GEBE · GARCIABROSS · EST. 1993</span>
+  <span class="footer-copy">© 2025 GeBe. Todos los derechos reservados · México</span>
+</footer>
+
+<script>
+
+const API_URL = 'https://script.google.com/macros/s/AKfycbz3VTcUveLc9SyZ9ZmgH4EDQqg_HEDrZerLQtQoKOU1z4vyHFZGQI15U_Th7E_8vU2X/exec';
+let allPosts = [];
+let currentFilter = 'all';
+
+function formatDate(str) {
+  if (!str) return '';
+  const [y, m, d] = String(str).split('-');
+  const months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  return `${months[parseInt(m)-1] || ''} ${y}`;
+}
+
+function catLabel(cat) {
+  const map = { publicidad:'Publicidad', digital:'Digital', cine:'Cine', documental:'Documental', videoclips:'Videoclips', musica:'Música', teatro:'Teatro' };
+  return map[(cat||'').toLowerCase()] || cat;
+}
+
+async function loadPosts() {
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
+    allPosts = data.map(row => ({
+      id:        String(row.id || ''),
+      titulo:    row.titulo || '',
+      resumen:   row.resumen || '',
+      categoria: (row.categoria || '').toLowerCase(),
+      fecha:     row.fecha || '',
+      imagen:    row.imagen || '',
+      destacado: String(row.destacado).toUpperCase() === 'TRUE',
+      contenido: row.contenido || ''
+    }));
+    renderBlog();
+  } catch(e) {
+    document.querySelector('.featured-inner').innerHTML =
+      '<div style="padding:3rem;opacity:.3;font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;grid-column:1/-1;">Error al cargar posts. Intenta de nuevo.</div>';
+  }
+}
+
+function renderBlog() {
+  const featured = allPosts.find(p => p.destacado) || allPosts[0];
+  const grid = allPosts.filter(p => p !== featured);
+
+  const featContainer = document.querySelector('.featured-inner');
+  if (featured) {
+    featContainer.innerHTML = `
+      <div class="featured-image">
+        ${featured.imagen ? `<img src="${featured.imagen}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">` : '<div class="featured-image-placeholder">GEBE</div>'}
+        <span class="featured-badge">Destacado</span>
+      </div>
+      <div class="featured-text">
+        <p class="feat-cat">${catLabel(featured.categoria)}</p>
+        <h2 class="feat-title">${featured.titulo}</h2>
+        <p class="feat-excerpt">${featured.resumen}</p>
+        <div class="feat-meta">
+          <span class="feat-date">${formatDate(featured.fecha)}</span>
+          <a href="post-detalle.html?id=${featured.id}" class="feat-read">Leer más →</a>
+        </div>
+      </div>`;
+  } else {
+    featContainer.innerHTML = `
+      <div class="featured-image"><div class="featured-image-placeholder">GEBE</div><span class="featured-badge">Destacado</span></div>
+      <div class="featured-text">
+        <p class="feat-cat">Nueva Producción</p>
+        <h2 class="feat-title">Próximamente nuevos posts</h2>
+        <p class="feat-excerpt">Vuelve pronto para ver las últimas noticias y producciones de GeBe.</p>
+      </div>`;
+  }
+
+  renderGrid(grid, currentFilter);
+}
+
+function renderGrid(posts, cat) {
+  const grid = document.getElementById('posts-grid');
+  const filtered = cat === 'all' ? posts : posts.filter(p => p.categoria === cat);
+
+  if (!filtered.length) {
+    grid.innerHTML = '<div style="padding:3rem;opacity:.3;font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;grid-column:1/-1;">No hay posts en esta categoría.</div>';
+    return;
+  }
+
+  const colors = ['linear-gradient(135deg,#1a1a2e,#0f3460)','linear-gradient(135deg,#1a0a0a,#3d1515)','linear-gradient(135deg,#0a1a0a,#0f3d15)','linear-gradient(135deg,#1a1a0a,#3d3d15)','linear-gradient(135deg,#0a0a1a,#15153d)','linear-gradient(135deg,#1a0a1a,#3d153d)'];
+
+  grid.innerHTML = filtered.map((p, i) => `
+    <a href="post-detalle.html?id=${p.id}" class="post-card" data-cat="${p.categoria}" style="opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease;">
+      <div class="post-thumb">
+        ${p.imagen
+          ? `<img src="${p.imagen}" style="width:100%;height:100%;object-fit:cover;">`
+          : `<div class="post-thumb-placeholder" style="background:${colors[i % colors.length]}">${String(i+1).padStart(2,'0')}</div>`}
+      </div>
+      <div class="post-body">
+        <p class="post-cat">${catLabel(p.categoria)}</p>
+        <h3 class="post-title">${p.titulo}</h3>
+        <p class="post-excerpt">${p.resumen}</p>
+        <div class="post-footer"><span class="post-date">${formatDate(p.fecha)}</span><span class="post-arrow">↗</span></div>
+      </div>
+    </a>`).join('');
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.style.opacity=1; e.target.style.transform='translateY(0)'; } });
+  }, { threshold:.08 });
+  document.querySelectorAll('.post-card').forEach(el => obs.observe(el));
+}
+
+function filterPosts(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const featured = allPosts.find(p => p.destacado) || allPosts[0];
+  const grid = allPosts.filter(p => p !== featured);
+  renderGrid(grid, cat);
+}
+
+loadPosts();
+</script>
+</body>
+</html>

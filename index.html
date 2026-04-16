@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GeBe — GarciaBross Productora</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,700;1,300&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --black: #0a0a0a;
+  --white: #f5f0e8;
+  --acid: #c8ff00;
+  --coral: #ff4d2e;
+  --blue: #0037ff;
+  --lavender: #b8a9ff;
+  --gray: #1a1a1a;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden;  }
+
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.2rem 3rem;
+  background: rgba(10,10,10,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.nav-logo { display: flex; align-items: center; text-decoration: none; }
+.logo-box {
+  background: var(--white);
+  padding: 6px 12px;
+  border-radius: 6px;
+  display: flex; align-items: center;
+}
+.logo-box svg { height: 28px; width: auto; }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a { color: var(--white); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.6; transition: opacity .2s; }
+.nav-links a:hover, .nav-links a.active { opacity: 1; color: var(--acid); }
+
+/* HERO */
+#hero { height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 3rem 5rem; position: relative; overflow: hidden; }
+.hero-bg { position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 75% 25%, rgba(0,55,255,.3) 0%, transparent 60%),
+              radial-gradient(ellipse 50% 50% at 20% 80%, rgba(200,255,0,.12) 0%, transparent 55%),
+              radial-gradient(ellipse 40% 40% at 50% 50%, rgba(255,77,46,.15) 0%, transparent 50%);
+  animation: bgpulse 9s ease-in-out infinite alternate;
+}
+@keyframes bgpulse { 0% { opacity:.7; transform:scale(1); } 100% { opacity:1; transform:scale(1.04); } }
+.hero-categories {
+  position: absolute; top: 50%; right: 3rem; transform: translateY(-50%);
+  z-index: 10;
+  display: flex; flex-direction: column; gap: 0.6rem; align-items: flex-end;
+}
+.hero-cat-pill {
+  text-decoration: none;
+  font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+  padding: 0.4rem 1rem; border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.4); white-space: nowrap;
+  transition: border-color .3s, color .3s;
+  text-decoration: none; display: block;
+}
+.hero-cat-pill:hover { border-color: var(--acid); color: var(--acid); }
+.hero-eyebrow { font-size: 0.7rem; letter-spacing: .3em; text-transform: uppercase; color: var(--acid); margin-bottom: 1.2rem; animation: fadeUp 1s ease both; }
+.hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(5rem,13vw,13rem); line-height: .88; animation: fadeUp 1s .15s ease both; }
+.hero-title em { font-family: 'Playfair Display', serif; font-style: italic; color: var(--coral); }
+.hero-sub { font-size: .9rem; opacity: .5; margin-top: 1.8rem; max-width: 420px; line-height: 1.8; animation: fadeUp 1s .3s ease both; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+
+/* MARQUEE */
+.marquee-wrap { overflow: hidden; border-top: 1px solid rgba(255,255,255,.08); border-bottom: 1px solid rgba(255,255,255,.08); padding: .9rem 0; background: var(--coral); }
+.marquee-track { display: flex; gap: 2.5rem; animation: marquee 20s linear infinite; white-space: nowrap; }
+.marquee-track span { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: .15em; color: var(--black); }
+.marquee-track .dot { opacity: .35; }
+@keyframes marquee { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+
+/* SECTION COMMONS */
+.section-wrap { padding: 7rem 3rem; }
+.section-label { font-size: .62rem; letter-spacing: .35em; text-transform: uppercase; color: var(--acid); margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
+.section-label::after { content:''; flex:1; height:1px; background:rgba(255,255,255,.08); max-width:60px; }
+.section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem,6vw,6rem); line-height:.95; margin-bottom: 3rem; }
+.section-title em { font-family: 'Playfair Display', serif; font-style:italic; color:var(--lavender); }
+
+/* NOSOTROS */
+#nosotros { border-top: 1px solid rgba(255,255,255,.06); }
+.nosotros-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 6rem; align-items: start; }
+.nosotros-left .big-stat { font-family:'Bebas Neue',sans-serif; font-size: clamp(7rem,16vw,16rem); line-height:1; color:transparent; -webkit-text-stroke:1px rgba(255,255,255,.12); display:block; }
+.nosotros-text p { font-size:.95rem; line-height:1.9; opacity:.65; margin-bottom:1.2rem; }
+.nosotros-tags { display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:2.5rem; }
+.tag { font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; padding:.35rem .85rem; border:1px solid rgba(255,255,255,.15); color:rgba(255,255,255,.5); }
+.paises-label { font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; color:var(--lavender); margin-bottom:.8rem; opacity:.7; }
+.paises { font-size:.82rem; opacity:.45; line-height:1.9; }
+.stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; margin-top:3rem; padding-top:3rem; border-top:1px solid rgba(255,255,255,.07); }
+.stat-num { font-family:'Bebas Neue',sans-serif; font-size:2.8rem; color:var(--acid); }
+.stat-lbl { font-size:.6rem; letter-spacing:.15em; text-transform:uppercase; opacity:.35; margin-top:.2rem; }
+
+/* VIDEO SECTIONS */
+.video-section { border-top: 1px solid rgba(255,255,255,.06); }
+.video-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,.06); }
+.video-card { background:var(--black); position:relative; aspect-ratio:16/9; overflow:hidden;  }
+.video-thumb { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s cubic-bezier(.25,.46,.45,.94), filter .5s; filter:grayscale(20%) brightness(.85); }
+.video-card:hover .video-thumb { transform:scale(1.05); filter:grayscale(0%) brightness(1); }
+.video-placeholder { width:100%; height:100%; background: linear-gradient(135deg, #111 0%, #1a1a2e 100%); display:flex; align-items:center; justify-content:center; flex-direction:column; gap:.5rem; }
+.video-placeholder .play-btn { width:48px; height:48px; border:1px solid rgba(255,255,255,.2); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem; transition:border-color .3s, background .3s; }
+.video-card:hover .play-btn { border-color:var(--acid); background:rgba(200,255,0,.15); }
+.video-card-info { position:absolute; bottom:0; left:0; right:0; padding:1.2rem 1.2rem .8rem; background:linear-gradient(to top, rgba(0,0,0,.9) 0%, transparent 100%); opacity:0; transition:opacity .3s; }
+.video-card:hover .video-card-info { opacity:1; }
+.video-card-title { font-size:.75rem; letter-spacing:.05em; }
+.video-card-brand { font-size:.6rem; opacity:.5; margin-top:.2rem; letter-spacing:.1em; }
+
+/* CARTEL GRID */
+.cartel-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,.06); }
+.cartel-card { background:var(--gray); aspect-ratio:2/3; position:relative; overflow:hidden;  }
+.cartel-placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:.75rem; }
+.cartel-num { font-family:'Bebas Neue',sans-serif; font-size:3rem; opacity:.06; }
+.cartel-info { position:absolute; bottom:0; left:0; right:0; padding:1.5rem 1.2rem 1.2rem; background:linear-gradient(to top, rgba(0,0,0,.95), transparent); transform:translateY(4px); transition:transform .3s; }
+.cartel-card:hover .cartel-info { transform:translateY(0); }
+.cartel-title { font-family:'Bebas Neue',sans-serif; font-size:1.2rem; }
+.cartel-year { font-size:.6rem; opacity:.4; margin-top:.2rem; letter-spacing:.1em; }
+
+/* 2-col grid for concerts/theater */
+.cartel-grid-2 { grid-template-columns: repeat(2, 1fr); }
+
+/* CONTACTO */
+#contacto { border-top:1px solid rgba(255,255,255,.06); position:relative; overflow:hidden; }
+.contact-bg { position:absolute; inset:0; background:radial-gradient(ellipse 80% 60% at 50% 100%, rgba(0,55,255,.1), transparent 60%); pointer-events:none; }
+.contact-inner { display:grid; grid-template-columns:1fr 1fr; gap:8rem; align-items:start; position:relative; }
+.contact-big { font-family:'Bebas Neue',sans-serif; font-size:clamp(4rem,9vw,9rem); line-height:.9; margin-bottom:2rem; }
+.contact-big em { font-family:'Playfair Display',serif; font-style:italic; color:var(--coral); }
+.contact-email { font-size:1.1rem; color:var(--acid); text-decoration:none; border-bottom:1px solid rgba(200,255,0,.3); padding-bottom:3px; transition:border-color .2s; }
+.contact-email:hover { border-color:var(--acid); }
+.contact-socials { display:flex; gap:1.5rem; margin-top:2rem; }
+.social-link { font-size:.65rem; letter-spacing:.2em; text-transform:uppercase; color:white; text-decoration:none; opacity:.35; transition:opacity .2s; }
+.social-link:hover { opacity:1; }
+.contact-form { display:flex; flex-direction:column; gap:1.5rem; }
+.form-group { display:flex; flex-direction:column; gap:.4rem; }
+.form-label { font-size:.6rem; letter-spacing:.25em; text-transform:uppercase; opacity:.4; }
+.form-input { background:none; border:none; border-bottom:1px solid rgba(255,255,255,.12); color:white; font-family:'DM Sans',sans-serif; font-size:1rem; padding:.7rem 0; outline:none; transition:border-color .3s;  }
+.form-input:focus { border-color:var(--acid); }
+.form-input::placeholder { opacity:.2; }
+textarea.form-input { resize:none; min-height:110px; }
+.form-btn { background:var(--acid); color:var(--black); border:none; padding:1.1rem 3rem; font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:.2em;  align-self:flex-start; transition:background .2s, transform .2s; margin-top:.5rem; }
+.form-btn:hover { background:var(--coral); color:white; transform:translateY(-2px); }
+
+/* FOOTER */
+footer { padding:2.5rem 3rem; border-top:1px solid rgba(255,255,255,.06); display:flex; justify-content:space-between; align-items:center; }
+.footer-logo { font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:.15em; opacity:.3; }
+.footer-copy { font-size:.62rem; opacity:.25; letter-spacing:.1em; }
+
+/* RESPONSIVE */
+/* TABLET 810px */
+@media(max-width:810px){
+  nav { padding:1rem 1.5rem; }
+  .nav-links { display:none; }
+  #hero { padding:0 1.5rem 3rem; }
+  .hero-categories { display:none; }
+  .section-wrap { padding:5rem 1.5rem; }
+  .nosotros-grid { grid-template-columns:1fr; gap:3rem; }
+  .nosotros-left { display:none; }
+  .video-grid { grid-template-columns:1fr 1fr; }
+  .cartel-grid { grid-template-columns:1fr 1fr; }
+  .contact-inner { grid-template-columns:1fr; gap:4rem; }
+  footer { padding:2rem 1.5rem; flex-direction:column; gap:1rem; }
+}
+/* MOBILE 390px */
+@media(max-width:390px){
+  nav { padding:.9rem 1rem; }
+  #hero { padding:0 1rem 2.5rem; }
+  .hero-title { font-size:4.5rem; }
+  .hero-sub { font-size:.82rem; }
+  .section-wrap { padding:3.5rem 1rem; }
+  .section-title { font-size:2.2rem; }
+  .video-grid { grid-template-columns:1fr; }
+  .cartel-grid { grid-template-columns:1fr; }
+  .cartel-grid-2 { grid-template-columns:1fr; }
+  .stats-row { grid-template-columns:1fr 1fr; gap:1.2rem; }
+  .nosotros-tags { gap:.3rem; }
+  .contact-inner { gap:2.5rem; }
+  .contact-big { font-size:3.5rem; }
+  .form-btn { width:100%; text-align:center; }
+  footer { padding:1.5rem 1rem; }
+}
+
+
+
+
+/* VIDEO EMBED GRID */
+.embed-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+.embed-item { display:flex; flex-direction:column; gap:.8rem; cursor:pointer; }
+.embed-item .embed-frame { position:relative; aspect-ratio:16/9; background:#111; outline:2px solid transparent; outline-offset:3px; transition:outline-color .25s; }
+.embed-item.active .embed-frame { outline-color:white; }
+.embed-item .embed-frame iframe { width:100%; height:100%; border:none; display:block; pointer-events:none; }
+.embed-item.active .embed-frame iframe { pointer-events:auto; }
+.embed-item .embed-title { font-size:.78rem; letter-spacing:.04em; opacity:.75; }
+@media(max-width:810px){ .embed-grid { grid-template-columns:1fr 1fr; gap:1rem; } }
+@media(max-width:390px){ .embed-grid { grid-template-columns:1fr; } }
+
+/* MAX WIDTH WRAPPER */
+.mw { max-width:1200px; margin:0 auto; width:100%; }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="logo-box">
+      <img src="Gebe_Negro.png" alt="GeBe" style="height:28px;width:auto;display:block;">
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="directores.html">Directores</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-categories">
+    <a href="#publicidad" class="hero-cat-pill" onclick="document.getElementById('publicidad').scrollIntoView({behavior:'smooth'});return false;">Publicidad</a>
+    <a href="#digital" class="hero-cat-pill" onclick="document.getElementById('digital').scrollIntoView({behavior:'smooth'});return false;">Digital</a>
+    <a href="#cine" class="hero-cat-pill" onclick="document.getElementById('cine').scrollIntoView({behavior:'smooth'});return false;">Cine · Documental</a>
+    <a href="#videoclips" class="hero-cat-pill" onclick="document.getElementById('videoclips').scrollIntoView({behavior:'smooth'});return false;">Videoclips</a>
+    <a href="#musica" class="hero-cat-pill" onclick="document.getElementById('musica').scrollIntoView({behavior:'smooth'});return false;">Música · Teatro</a>
+  </div>
+  <p class="hero-eyebrow">GarciaBross · Est. 1993 · México</p>
+  <h1 class="hero-title">30 AÑOS<br><em>haciendo</em><br>HISTORIA</h1>
+  <p class="hero-sub">Casa productora del año por varios años consecutivos. El más alto nivel de producción en México y Latinoamérica.</p>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>PUBLICIDAD</span><span class="dot">◆</span>
+    <span>DIGITAL</span><span class="dot">◆</span>
+    <span>CINE</span><span class="dot">◆</span>
+    <span>DOCUMENTAL</span><span class="dot">◆</span>
+    <span>VIDEOCLIPS</span><span class="dot">◆</span>
+    <span>MÚSICA</span><span class="dot">◆</span>
+    <span>TEATRO</span><span class="dot">◆</span>
+    <span>PUBLICIDAD</span><span class="dot">◆</span>
+    <span>DIGITAL</span><span class="dot">◆</span>
+    <span>CINE</span><span class="dot">◆</span>
+    <span>DOCUMENTAL</span><span class="dot">◆</span>
+    <span>VIDEOCLIPS</span><span class="dot">◆</span>
+    <span>MÚSICA</span><span class="dot">◆</span>
+    <span>TEATRO</span><span class="dot">◆</span>
+  </div>
+</div>
+
+<!-- NOSOTROS -->
+<section id="nosotros" class="section-wrap">
+  <div class="nosotros-grid">
+    <div class="nosotros-left">
+      <span class="big-stat">30</span>
+    </div>
+    <div class="nosotros-text">
+      <p class="section-label">Quiénes somos</p>
+
+      <p>Somos una empresa integral creada en 1993. Con más de 30 años de experiencia en el medio, GeBe se especializa en producción y dirección para comerciales de TV/digital, documentales, largometrajes, cortometrajes, videoclips, producciones musicales y foto fija.</p>
+      <p>En su larga trayectoria, GeBe (GarciaBross) ha sido nombrada la casa productora del año por varios años consecutivos, gracias al gran número de premios obtenidos. Logrando el reconocimiento como una compañía que ofrece el más alto nivel de calidad en la producción de comerciales en México.</p>
+      <p class="paises-label">Socios estratégicos en</p>
+      <p class="paises">Estados Unidos · Argentina · Chile · España · Venezuela · Perú · Colombia · Panamá · Brasil · Canadá</p>
+      <div class="stats-row">
+        <div><p class="stat-num">30+</p><p class="stat-lbl">Años de experiencia</p></div>
+        <div><p class="stat-num">7</p><p class="stat-lbl">Directores en roster</p></div>
+        <div><p class="stat-num">10+</p><p class="stat-lbl">Países socios</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICIDAD -->
+<section id="publicidad" class="section-wrap video-section">
+  <p class="section-label">Categoría</p>
+  <h2 class="section-title">PUBLICIDAD</h2>
+  <div class="embed-grid">
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <iframe src="https://player.vimeo.com/video/945840036?title=0&byline=0&portrait=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">Bisquets Obregón</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <iframe src="https://player.vimeo.com/video/723033004?title=0&byline=0&portrait=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">Burger King</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <iframe src="https://player.vimeo.com/video/509043698?title=0&byline=0&portrait=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">Instituto de Liderazgo Simone de Beauvior</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <iframe src="https://player.vimeo.com/video/1004215236?title=0&byline=0&portrait=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">FIAT</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <iframe src="https://player.vimeo.com/video/923419361?title=0&byline=0&portrait=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">Kotex</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <iframe src="https://player.vimeo.com/video/1004225186?title=0&byline=0&portrait=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">Volvo</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <iframe src="https://player.vimeo.com/video/1005608214?title=0&byline=0&portrait=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">The Home Depot</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <iframe src="https://player.vimeo.com/video/482735341?title=0&byline=0&portrait=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">International Youth Foundation</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <iframe src="https://player.vimeo.com/video/1005605918?title=0&byline=0&portrait=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">Lala / Teletón</p>
+    </div>
+  </div>
+</section>
+
+<!-- DIGITAL -->
+<section id="digital" class="section-wrap video-section">
+  <p class="section-label">Categoría</p>
+  <h2 class="section-title"><em>Digital</em></h2>
+  <div class="video-grid">
+    <div class="video-card" onclick="openVimeo('DIG_ID_1')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Proyecto Digital</p><p class="video-card-brand">Cliente · Año</p></div></div>
+    <div class="video-card" onclick="openVimeo('DIG_ID_2')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Proyecto Digital</p><p class="video-card-brand">Cliente · Año</p></div></div>
+    <div class="video-card" onclick="openVimeo('DIG_ID_3')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Proyecto Digital</p><p class="video-card-brand">Cliente · Año</p></div></div>
+    <div class="video-card" onclick="openVimeo('DIG_ID_4')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Proyecto Digital</p><p class="video-card-brand">Cliente · Año</p></div></div>
+    <div class="video-card" onclick="openVimeo('DIG_ID_5')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Proyecto Digital</p><p class="video-card-brand">Cliente · Año</p></div></div>
+    <div class="video-card" onclick="openVimeo('DIG_ID_6')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Proyecto Digital</p><p class="video-card-brand">Cliente · Año</p></div></div>
+    <div class="video-card" onclick="openVimeo('DIG_ID_7')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Proyecto Digital</p><p class="video-card-brand">Cliente · Año</p></div></div>
+    <div class="video-card" onclick="openVimeo('DIG_ID_8')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Proyecto Digital</p><p class="video-card-brand">Cliente · Año</p></div></div>
+    <div class="video-card" onclick="openVimeo('DIG_ID_9')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Proyecto Digital</p><p class="video-card-brand">Cliente · Año</p></div></div>
+  </div>
+</section>
+
+<!-- CINE -->
+<section id="cine" class="section-wrap video-section">
+  <p class="section-label">Categoría</p>
+  <h2 class="section-title">CINE</h2>
+  <div class="cartel-grid">
+    <div class="cartel-card"><div class="cartel-placeholder"><span class="cartel-num">01</span></div><div class="cartel-info"><p class="cartel-title">Título de Película</p><p class="cartel-year">Director · Año</p></div></div>
+    <div class="cartel-card"><div class="cartel-placeholder"><span class="cartel-num">02</span></div><div class="cartel-info"><p class="cartel-title">Título de Película</p><p class="cartel-year">Director · Año</p></div></div>
+    <div class="cartel-card"><div class="cartel-placeholder"><span class="cartel-num">03</span></div><div class="cartel-info"><p class="cartel-title">Título de Película</p><p class="cartel-year">Director · Año</p></div></div>
+    <div class="cartel-card"><div class="cartel-placeholder"><span class="cartel-num">04</span></div><div class="cartel-info"><p class="cartel-title">Título de Película</p><p class="cartel-year">Director · Año</p></div></div>
+    <div class="cartel-card"><div class="cartel-placeholder"><span class="cartel-num">05</span></div><div class="cartel-info"><p class="cartel-title">Título de Película</p><p class="cartel-year">Director · Año</p></div></div>
+    <div class="cartel-card"><div class="cartel-placeholder"><span class="cartel-num">06</span></div><div class="cartel-info"><p class="cartel-title">Título de Película</p><p class="cartel-year">Director · Año</p></div></div>
+  </div>
+</section>
+
+<!-- DOCUMENTAL / FICCIÓN / CORTOMETRAJE -->
+<section id="documental" class="section-wrap video-section">
+  <p class="section-label">Categoría</p>
+  <h2 class="section-title">Documental · <em>Ficción</em> · Corto</h2>
+  <div class="cartel-grid">
+    <div class="cartel-card"><div class="cartel-placeholder"><span class="cartel-num">01</span></div><div class="cartel-info"><p class="cartel-title">Título</p><p class="cartel-year">Tipo · Año</p></div></div>
+    <div class="cartel-card"><div class="cartel-placeholder"><span class="cartel-num">02</span></div><div class="cartel-info"><p class="cartel-title">Título</p><p class="cartel-year">Tipo · Año</p></div></div>
+    <div class="cartel-card"><div class="cartel-placeholder"><span class="cartel-num">03</span></div><div class="cartel-info"><p class="cartel-title">Título</p><p class="cartel-year">Tipo · Año</p></div></div>
+    <div class="cartel-card"><div class="cartel-placeholder"><span class="cartel-num">04</span></div><div class="cartel-info"><p class="cartel-title">Título</p><p class="cartel-year">Tipo · Año</p></div></div>
+    <div class="cartel-card"><div class="cartel-placeholder"><span class="cartel-num">05</span></div><div class="cartel-info"><p class="cartel-title">Título</p><p class="cartel-year">Tipo · Año</p></div></div>
+    <div class="cartel-card"><div class="cartel-placeholder"><span class="cartel-num">06</span></div><div class="cartel-info"><p class="cartel-title">Título</p><p class="cartel-year">Tipo · Año</p></div></div>
+  </div>
+</section>
+
+<!-- VIDEOCLIPS -->
+<section id="videoclips" class="section-wrap video-section">
+  <p class="section-label">Categoría</p>
+  <h2 class="section-title"><em>Video</em>CLIPS</h2>
+  <div class="video-grid">
+    <div class="video-card" onclick="openVimeo('VC_ID_1')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Nombre del Videoclip</p><p class="video-card-brand">Artista · Año</p></div></div>
+    <div class="video-card" onclick="openVimeo('VC_ID_2')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Nombre del Videoclip</p><p class="video-card-brand">Artista · Año</p></div></div>
+    <div class="video-card" onclick="openVimeo('VC_ID_3')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Nombre del Videoclip</p><p class="video-card-brand">Artista · Año</p></div></div>
+    <div class="video-card" onclick="openVimeo('VC_ID_4')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Nombre del Videoclip</p><p class="video-card-brand">Artista · Año</p></div></div>
+    <div class="video-card" onclick="openVimeo('VC_ID_5')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Nombre del Videoclip</p><p class="video-card-brand">Artista · Año</p></div></div>
+    <div class="video-card" onclick="openVimeo('VC_ID_6')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Nombre del Videoclip</p><p class="video-card-brand">Artista · Año</p></div></div>
+  </div>
+</section>
+
+<!-- MÚSICA -->
+<section id="musica" class="section-wrap video-section">
+  <p class="section-label">Categoría</p>
+  <h2 class="section-title">MÚSICA</h2>
+  <div class="cartel-grid cartel-grid-2">
+    <div class="cartel-card"><div class="cartel-placeholder"><span class="cartel-num">01</span></div><div class="cartel-info"><p class="cartel-title">Nombre del Concierto</p><p class="cartel-year">Artista · Año</p></div></div>
+    <div class="cartel-card"><div class="cartel-placeholder"><span class="cartel-num">02</span></div><div class="cartel-info"><p class="cartel-title">Nombre del Concierto</p><p class="cartel-year">Artista · Año</p></div></div>
+  </div>
+</section>
+
+<!-- TEATRO -->
+<section id="teatro" class="section-wrap video-section">
+  <p class="section-label">Categoría</p>
+  <h2 class="section-title">TEATRO</h2>
+  <div class="cartel-grid cartel-grid-2">
+    <div class="cartel-card"><div class="cartel-placeholder"><span class="cartel-num">01</span></div><div class="cartel-info"><p class="cartel-title">Nombre de la Obra</p><p class="cartel-year">Director · Año</p></div></div>
+    <div class="cartel-card"><div class="cartel-placeholder"><span class="cartel-num">02</span></div><div class="cartel-info"><p class="cartel-title">Nombre de la Obra</p><p class="cartel-year">Director · Año</p></div></div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto" class="section-wrap">
+  <div class="contact-bg"></div>
+  <div class="contact-inner">
+    <div>
+      <p class="section-label">Hablemos</p>
+      <h2 class="contact-big">HAGAMOS<br><em>algo</em><br>GRANDE</h2>
+      <a href="/cdn-cgi/l/email-protection#fe97909891be999f8c9d979f9c8c918d8dd09d9193" class="contact-email"><span class="__cf_email__" data-cfemail="bfd6d1d9d0ffd8decddcd6deddcdd0cccc91dcd0d2">[email&#160;protected]</span></a>
+      <div class="contact-socials">
+        <a href="#" class="social-link">Instagram</a>
+        <a href="#" class="social-link">Vimeo</a>
+        <a href="#" class="social-link">LinkedIn</a>
+      </div>
+    </div>
+    <form class="contact-form" action="https://formspree.io/f/mwvakzaw" method="POST" id="contact-form">
+      <div class="form-group"><label class="form-label" for="nombre">Nombre</label><input type="text" name="nombre" id="nombre" class="form-input" placeholder="Tu nombre" required></div>
+      <div class="form-group"><label class="form-label" for="email">Email</label><input type="email" name="email" id="email" class="form-input" placeholder="tu@email.com" required></div>
+      <div class="form-group"><label class="form-label" for="proyecto">Proyecto</label><textarea name="proyecto" id="proyecto" class="form-input" placeholder="Cuéntanos sobre tu proyecto..."></textarea></div>
+      <button type="submit" class="form-btn" id="submit-btn">ENVIAR MENSAJE</button>
+      <p id="form-success" style="display:none;color:var(--acid);font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;margin-top:.5rem;">✓ Mensaje enviado, pronto te contactamos.</p>
+      <p id="form-error" style="display:none;color:var(--coral);font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;margin-top:.5rem;">✕ Error al enviar. Intenta de nuevo.</p>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">GEBE · GARCIABROSS · EST. 1993</span>
+  <span class="footer-copy">© 2025 GeBe. Todos los derechos reservados · México</span>
+</footer>
+
+<!-- VIDEO MODAL -->
+<div id="vimeo-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:1000;align-items:center;justify-content:center;flex-direction:column;gap:1rem;">
+  <button onclick="closeVimeo()" style="position:absolute;top:2rem;right:2rem;background:none;border:1px solid rgba(255,255,255,.2);color:white;width:44px;height:44px;cursor:pointer;font-size:1.2rem;">✕</button>
+  <div style="width:90vw;max-width:960px;aspect-ratio:16/9;">
+    <iframe id="vimeo-frame" src="" style="width:100%;height:100%;border:none;" allow="autoplay;fullscreen"></iframe>
+  </div>
+</div>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => { cursor.style.left = e.clientX+'px'; cursor.style.top = e.clientY+'px'; });
+document.querySelectorAll('a,button,.video-card,.cartel-card,input,textarea').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+});
+
+// VIMEO
+function openVimeo(id) {
+  if(!id || id.startsWith('VIDEO_ID') || id.startsWith('DIG_') || id.startsWith('VC_')) {
+    alert('Reemplaza el ID de Vimeo en el código para activar este video.');
+    return;
+  }
+  const modal = document.getElementById('vimeo-modal');
+  document.getElementById('vimeo-frame').src = 'https://player.vimeo.com/video/'+id+'?autoplay=1';
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeVimeo() {
+  document.getElementById('vimeo-modal').style.display = 'none';
+  document.getElementById('vimeo-frame').src = '';
+  document.body.style.overflow = '';
+}
+document.getElementById('vimeo-modal').addEventListener('click', e => { if(e.target === e.currentTarget) closeVimeo();
+});
+
+// FORMSPREE AJAX
+const contactForm = document.getElementById('contact-form');
+if (contactForm) {
+  contactForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    const success = document.getElementById('form-success');
+    const error = document.getElementById('form-error');
+    btn.textContent = 'ENVIANDO...';
+    btn.disabled = true;
+    try {
+      const res = await fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        success.style.display = 'block';
+        error.style.display = 'none';
+        contactForm.reset();
+        btn.textContent = 'ENVIADO ✓';
+      } else {
+        throw new Error();
+      }
+    } catch {
+      error.style.display = 'block';
+      success.style.display = 'none';
+      btn.textContent = 'ENVIAR MENSAJE';
+      btn.disabled = false;
+    }
+  });
+}
+
+// EMBED ACTIVE - pausa con postMessage sin recargar
+function pauseIframe(iframe) {
+  iframe.contentWindow.postMessage('{"method":"pause"}', 'https://player.vimeo.com');
+}
+
+function setActive(el) {
+  const current = document.querySelector('.embed-item.active');
+  if (current && current !== el) {
+    const iframe = current.querySelector('iframe');
+    if (iframe) pauseIframe(iframe);
+    current.classList.remove('active');
+  }
+  el.classList.add('active');
+}
+
+document.querySelectorAll('.embed-item').forEach(el => {
+  el.addEventListener('click', function() { setActive(this); });
+});
+
+</script>
+</body>
+</html>

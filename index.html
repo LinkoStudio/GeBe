@@ -120,6 +120,8 @@ nav {
 .cartel-card:hover .cartel-info { transform:translateY(0); }
 .cartel-title { font-family:'Bebas Neue',sans-serif; font-size:1.2rem; }
 .cartel-year { font-size:.6rem; opacity:.4; margin-top:.2rem; letter-spacing:.1em; }
+.cartel-img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s cubic-bezier(.25,.46,.45,.94), filter .5s; filter:grayscale(10%) brightness(.9); }
+.cartel-card:hover .cartel-img { transform:scale(1.04); filter:grayscale(0%) brightness(1); }
 
 /* 2-col grid for concerts/theater */
 .cartel-grid-2 { grid-template-columns: repeat(2, 1fr); }
@@ -203,6 +205,11 @@ footer { padding:2.5rem 3rem; border-top:1px solid rgba(255,255,255,.06); displa
 
 /* MAX WIDTH WRAPPER */
 .mw { max-width:1200px; margin:0 auto; width:100%; }
+
+/* CARTEL SECTION PADDING */
+.cartel-section { padding-left: 6rem; padding-right: 6rem; }
+@media(max-width:810px){ .cartel-section { padding-left: 2rem; padding-right: 2rem; } }
+@media(max-width:390px){ .cartel-section { padding-left: 1rem; padding-right: 1rem; } }
 
 </style>
 </head>
@@ -423,11 +430,11 @@ footer { padding:2.5rem 3rem; border-top:1px solid rgba(255,255,255,.06); displa
 </section>
 
 <!-- CINE -->
-<section id="cine" class="section-wrap video-section">
+<section id="cine" class="section-wrap video-section cartel-section">
   <p class="section-label">Categoría</p>
   <h2 class="section-title">CINE</h2>
   <div class="cartel-grid">
-    <div class="cartel-card"><div class="cartel-placeholder"><span class="cartel-num">01</span></div><div class="cartel-info"><p class="cartel-title">Título de Película</p><p class="cartel-year">Director · Año</p></div></div>
+    <div class="cartel-card"><img class="cartel-img" src="Sal_Azul_Pelicula.webp" alt="Sal Azul" loading="lazy"><div class="cartel-info"><p class="cartel-title">SAL AZUL</p><p class="cartel-year">Alejandro Cervantes Polanco · 2023</p></div></div>
     <div class="cartel-card"><div class="cartel-placeholder"><span class="cartel-num">02</span></div><div class="cartel-info"><p class="cartel-title">Título de Película</p><p class="cartel-year">Director · Año</p></div></div>
     <div class="cartel-card"><div class="cartel-placeholder"><span class="cartel-num">03</span></div><div class="cartel-info"><p class="cartel-title">Título de Película</p><p class="cartel-year">Director · Año</p></div></div>
     <div class="cartel-card"><div class="cartel-placeholder"><span class="cartel-num">04</span></div><div class="cartel-info"><p class="cartel-title">Título de Película</p><p class="cartel-year">Director · Año</p></div></div>

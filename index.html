@@ -194,6 +194,9 @@ footer { padding:2.5rem 3rem; border-top:1px solid rgba(255,255,255,.06); displa
 .embed-item.active .embed-frame { outline-color:white; }
 .embed-item .embed-frame iframe { width:100%; height:100%; border:none; display:block; pointer-events:none; }
 .embed-item.active .embed-frame iframe { pointer-events:auto; }
+.fs-btn { position:absolute; top:.6rem; right:.6rem; width:28px; height:28px; background:rgba(0,0,0,.6); border:1px solid rgba(255,255,255,.2); color:white; display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; transition:opacity .2s, border-color .2s; z-index:10; font-size:.75rem; backdrop-filter:blur(4px); }
+.embed-item:hover .fs-btn { opacity:1; }
+.fs-btn:hover { border-color:var(--acid); color:var(--acid); }
 .embed-item .embed-title { font-size:.78rem; letter-spacing:.04em; opacity:.75; }
 @media(max-width:810px){ .embed-grid { grid-template-columns:1fr 1fr; gap:1rem; } }
 @media(max-width:390px){ .embed-grid { grid-template-columns:1fr; } }
@@ -284,55 +287,64 @@ footer { padding:2.5rem 3rem; border-top:1px solid rgba(255,255,255,.06); displa
   <div class="embed-grid">
     <div class="embed-item" onclick="setActive(this)">
       <div class="embed-frame">
-        <iframe src="https://player.vimeo.com/video/945840036?title=0&byline=0&portrait=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/945840036?title=0&byline=0&portrait=0&badge=0&quality=auto&dnt=1&loop=1&transparent=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
       </div>
       <p class="embed-title">Bisquets Obregón</p>
     </div>
     <div class="embed-item" onclick="setActive(this)">
       <div class="embed-frame">
-        <iframe src="https://player.vimeo.com/video/723033004?title=0&byline=0&portrait=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/723033004?title=0&byline=0&portrait=0&badge=0&quality=auto&dnt=1&loop=1&transparent=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
       </div>
       <p class="embed-title">Burger King</p>
     </div>
     <div class="embed-item" onclick="setActive(this)">
       <div class="embed-frame">
-        <iframe src="https://player.vimeo.com/video/509043698?title=0&byline=0&portrait=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/509043698?title=0&byline=0&portrait=0&badge=0&quality=auto&dnt=1&loop=1&transparent=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
       </div>
       <p class="embed-title">Instituto de Liderazgo Simone de Beauvior</p>
     </div>
     <div class="embed-item" onclick="setActive(this)">
       <div class="embed-frame">
-        <iframe src="https://player.vimeo.com/video/1004215236?title=0&byline=0&portrait=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/1004215236?title=0&byline=0&portrait=0&badge=0&quality=auto&dnt=1&loop=1&transparent=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
       </div>
       <p class="embed-title">FIAT</p>
     </div>
     <div class="embed-item" onclick="setActive(this)">
       <div class="embed-frame">
-        <iframe src="https://player.vimeo.com/video/923419361?title=0&byline=0&portrait=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/923419361?title=0&byline=0&portrait=0&badge=0&quality=auto&dnt=1&loop=1&transparent=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
       </div>
       <p class="embed-title">Kotex</p>
     </div>
     <div class="embed-item" onclick="setActive(this)">
       <div class="embed-frame">
-        <iframe src="https://player.vimeo.com/video/1004225186?title=0&byline=0&portrait=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/1004225186?title=0&byline=0&portrait=0&badge=0&quality=auto&dnt=1&loop=1&transparent=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
       </div>
       <p class="embed-title">Volvo</p>
     </div>
     <div class="embed-item" onclick="setActive(this)">
       <div class="embed-frame">
-        <iframe src="https://player.vimeo.com/video/1005608214?title=0&byline=0&portrait=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/1005608214?title=0&byline=0&portrait=0&badge=0&quality=auto&dnt=1&loop=1&transparent=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
       </div>
       <p class="embed-title">The Home Depot</p>
     </div>
     <div class="embed-item" onclick="setActive(this)">
       <div class="embed-frame">
-        <iframe src="https://player.vimeo.com/video/482735341?title=0&byline=0&portrait=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/482735341?title=0&byline=0&portrait=0&badge=0&quality=auto&dnt=1&loop=1&transparent=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
       </div>
       <p class="embed-title">International Youth Foundation</p>
     </div>
     <div class="embed-item" onclick="setActive(this)">
       <div class="embed-frame">
-        <iframe src="https://player.vimeo.com/video/1005605918?title=0&byline=0&portrait=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/1005605918?title=0&byline=0&portrait=0&badge=0&quality=auto&dnt=1&loop=1&transparent=0" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
       </div>
       <p class="embed-title">Lala / Teletón</p>
     </div>
@@ -343,16 +355,70 @@ footer { padding:2.5rem 3rem; border-top:1px solid rgba(255,255,255,.06); displa
 <section id="digital" class="section-wrap video-section">
   <p class="section-label">Categoría</p>
   <h2 class="section-title"><em>Digital</em></h2>
-  <div class="video-grid">
-    <div class="video-card" onclick="openVimeo('DIG_ID_1')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Proyecto Digital</p><p class="video-card-brand">Cliente · Año</p></div></div>
-    <div class="video-card" onclick="openVimeo('DIG_ID_2')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Proyecto Digital</p><p class="video-card-brand">Cliente · Año</p></div></div>
-    <div class="video-card" onclick="openVimeo('DIG_ID_3')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Proyecto Digital</p><p class="video-card-brand">Cliente · Año</p></div></div>
-    <div class="video-card" onclick="openVimeo('DIG_ID_4')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Proyecto Digital</p><p class="video-card-brand">Cliente · Año</p></div></div>
-    <div class="video-card" onclick="openVimeo('DIG_ID_5')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Proyecto Digital</p><p class="video-card-brand">Cliente · Año</p></div></div>
-    <div class="video-card" onclick="openVimeo('DIG_ID_6')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Proyecto Digital</p><p class="video-card-brand">Cliente · Año</p></div></div>
-    <div class="video-card" onclick="openVimeo('DIG_ID_7')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Proyecto Digital</p><p class="video-card-brand">Cliente · Año</p></div></div>
-    <div class="video-card" onclick="openVimeo('DIG_ID_8')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Proyecto Digital</p><p class="video-card-brand">Cliente · Año</p></div></div>
-    <div class="video-card" onclick="openVimeo('DIG_ID_9')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Proyecto Digital</p><p class="video-card-brand">Cliente · Año</p></div></div>
+  <div class="embed-grid">
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/889698350?title=0&byline=0&portrait=0&badge=0&quality=auto" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">Mitsubishi</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/844386933?title=0&byline=0&portrait=0&badge=0&quality=auto" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">Burger King</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/1018481461?title=0&byline=0&portrait=0&badge=0&quality=auto" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">Lala</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/1018482573?title=0&byline=0&portrait=0&badge=0&quality=auto" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">The Home Depot</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/685937767?title=0&byline=0&portrait=0&badge=0&quality=auto" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">Fundación Televisa</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/1005575171?title=0&byline=0&portrait=0&badge=0&quality=auto" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">McCormick</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/461205302?title=0&byline=0&portrait=0&badge=0&quality=auto" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">Suburbia</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/1004230413?title=0&byline=0&portrait=0&badge=0&quality=auto" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">Pizza Hut</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/844387469?title=0&byline=0&portrait=0&badge=0&quality=auto" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">Burger King</p>
+    </div>
   </div>
 </section>
 
@@ -388,13 +454,49 @@ footer { padding:2.5rem 3rem; border-top:1px solid rgba(255,255,255,.06); displa
 <section id="videoclips" class="section-wrap video-section">
   <p class="section-label">Categoría</p>
   <h2 class="section-title"><em>Video</em>CLIPS</h2>
-  <div class="video-grid">
-    <div class="video-card" onclick="openVimeo('VC_ID_1')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Nombre del Videoclip</p><p class="video-card-brand">Artista · Año</p></div></div>
-    <div class="video-card" onclick="openVimeo('VC_ID_2')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Nombre del Videoclip</p><p class="video-card-brand">Artista · Año</p></div></div>
-    <div class="video-card" onclick="openVimeo('VC_ID_3')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Nombre del Videoclip</p><p class="video-card-brand">Artista · Año</p></div></div>
-    <div class="video-card" onclick="openVimeo('VC_ID_4')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Nombre del Videoclip</p><p class="video-card-brand">Artista · Año</p></div></div>
-    <div class="video-card" onclick="openVimeo('VC_ID_5')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Nombre del Videoclip</p><p class="video-card-brand">Artista · Año</p></div></div>
-    <div class="video-card" onclick="openVimeo('VC_ID_6')"><div class="video-placeholder"><div class="play-btn">▶</div></div><div class="video-card-info"><p class="video-card-title">Nombre del Videoclip</p><p class="video-card-brand">Artista · Año</p></div></div>
+  <div class="embed-grid">
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/1004203560?title=0&byline=0&portrait=0&badge=0&quality=auto" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">Belenciana • Camino Amarillo</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/1005597126?title=0&byline=0&portrait=0&badge=0&quality=auto" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">ExNovios • Calma</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/868844026?title=0&byline=0&portrait=0&badge=0&quality=auto" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">IBOREH • Life Is Insanity</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/897312396?title=0&byline=0&portrait=0&badge=0&quality=auto" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">Michael Bolton & Raul Di Blasio • El Día Que Me Quieras</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/310209054?title=0&byline=0&portrait=0&badge=0&quality=auto" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">Chayanne • Si No Estás</p>
+    </div>
+    <div class="embed-item" onclick="setActive(this)">
+      <div class="embed-frame">
+        <button class="fs-btn" onclick="goFS(this)" title="Pantalla completa">⛶</button>
+        <iframe src="https://player.vimeo.com/video/897312422?title=0&byline=0&portrait=0&badge=0&quality=auto" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="embed-title">Patty Manterola • Quédate Conmigo</p>
+    </div>
   </div>
 </section>
 
@@ -521,6 +623,12 @@ if (contactForm) {
 // EMBED ACTIVE - pausa con postMessage sin recargar
 function pauseIframe(iframe) {
   iframe.contentWindow.postMessage('{"method":"pause"}', 'https://player.vimeo.com');
+}
+
+function goFS(btn) {
+  const iframe = btn.parentElement.querySelector('iframe');
+  if (iframe.requestFullscreen) iframe.requestFullscreen();
+  else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
 }
 
 function setActive(el) {
